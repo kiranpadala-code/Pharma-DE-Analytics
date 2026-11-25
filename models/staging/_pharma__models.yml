@@ -65,3 +65,28 @@ models:
         description: "Timestamp when the record was ingested into the Snowflake RAW table."
         data_tests:
           - not_null
+          
+  - name: stg_pharma__specialty_product_map
+    description: "Table for Specialty with its primary product."
+    columns:
+      - name: specialty
+        description: "Specialty name."
+        data_tests:
+          - not_null
+          - unique
+      - name: primary_product_id
+        description: "Primary pharmaceutical product assigned to the specialty."
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('stg_pharma__product')
+                field: product_id
+      - name: _source_file
+        description: "Relative path of the source file from which the record was ingested."
+        data_tests:
+          - not_null
+      - name: _loaded_at
+        description: "Timestamp when the record was ingested into the Snowflake RAW table."
+        data_tests:
+          - not_null
