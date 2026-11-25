@@ -8,3 +8,4 @@ CREATE STORAGE INTEGRATION PHARMA_S3_INTEGRATION
     STORAGE_ALLOWED_LOCATIONS = (
         's3://pharma-de-analytics-raw-kiranpadala/'
     );
+
