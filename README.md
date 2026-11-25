@@ -2,72 +2,133 @@
 
 ## Overview
 
-Pharma-DE-Analytics is an end-to-end pharmaceutical data engineering project focused on building data transformation pipelines using dbt Core and Snowflake.
+Pharma-DE-Analytics is an end-to-end pharmaceutical data engineering project focused on building scalable, reliable and analytics-ready data pipelines using AWS S3, Snowflake and dbt Fusion.
 
-The project aims to transform raw pharmaceutical business datasets into clean, structured, reliable and analytics-ready data models to support business analysis and reporting.
+The project simulates pharmaceutical commercial data operations, covering data generation, cloud storage, ingestion, reconciliation, transformation, data quality and dimensional modelling.
 
 ## Objectives
 
-- Build end-to-end data transformation pipelines using dbt.
-- Integrate and transform multiple pharmaceutical datasets.
-- Implement data cleaning, standardization and validation.
+- Implement end-to-end ELT pipelines.
+- Integrate multiple pharmaceutical commercial datasets.
+- Implement data ingestion and reconciliation.
+- Perform data cleaning, standardization and validation.
 - Develop staging, intermediate and mart data models.
-- Implement data quality tests and validation rules.
+- Implement automated data quality checks and business rule validations.
 - Apply dimensional modelling concepts.
-- Explore incremental models and historical data tracking.
-- Produce analytics-ready datasets for business insights.
+- Explore incremental processing and historical data management.
+- Deliver analytics-ready datasets for business reporting.
 
 ## Technology Stack
 
 | Technology | Purpose |
 |---|---|
-| Snowflake | Cloud data warehouse |
-| dbt Core | Data transformation and modelling |
-| SQL | Data transformation logic |
+| Python | Synthetic data generation and validation |
+| AWS S3 | Cloud object storage and source file management |
+| Snowflake | Cloud data warehouse and transformation compute |
+| dbt Fusion | Data transformation, modelling and testing |
+| SQL | Data processing and business logic |
+| YAML | Configuration, documentation and test definitions |
 | Git | Version control |
 | GitHub | Source code management |
 | VS Code | Development environment |
 
 ## Project Architecture
 
-The project will follow a layered data transformation architecture:
+```text
+Synthetic Data Generation (Python)
+                |
+                v
+             AWS S3
+                |
+                v
+        Snowflake RAW Layer
+                |
+                v
+        dbt Staging Layer
+                |
+                v
+      dbt Intermediate Layer
+                |
+                v
+         dbt Marts Layer
+                |
+                v
+       Analytics and Reporting
+```
 
-1. **Raw Layer:** Source datasets loaded into Snowflake.
-2. **Staging Layer:** Data cleaning, standardization and initial transformations.
-3. **Intermediate Layer:** Business logic, joins and calculations.
-4. **Marts Layer:** Fact and dimension models designed for analytical consumption.
+| Layer | Responsibility |
+|---|---|
+| RAW | Source data ingestion and preservation |
+| STAGING | Data cleaning, standardization and type casting |
+| INT | Dataset integration, business logic and calculations |
+| MARTS | Analytical fact and dimension models |
 
-## Business Areas
+## Source Datasets
 
-The project will explore pharmaceutical business domains such as:
+The project uses synthetic pharmaceutical commercial data covering January to June 2026.
 
-- Pharmaceutical sales and revenue analysis
-- Product and drug master data
+| Dataset | Description |
+|---|---|
+| product | Pharmaceutical product master |
+| territory | Sales territory and geographical hierarchy |
+| specialty_product_map | HCP specialty and product mapping |
+| account_master | Healthcare organization master |
+| hcp_master | Healthcare professional master |
+| roster | Sales representative and territory assignments |
+| xponent | Prescription and pharmaceutical sales data |
+| calls_interactions | Sales representative and HCP interactions |
+| samples | Pharmaceutical sample distribution |
+
+## Business Domains
+
+- Pharmaceutical sales and prescription analytics
+- Product performance
 - Healthcare Professional (HCP) analytics
 - Healthcare Organization (HCO) analytics
-- Prescription trends
+- Sales representative effectiveness
 - Territory and geographical performance
+- HCP engagement and sample distribution
 
-## Data Quality
+## Data Quality Framework
 
-Data quality will be addressed through:
+Data quality controls will be implemented across the pipeline using:
 
-- Uniqueness and null validation
+- Source-to-target reconciliation
+- Primary key uniqueness checks
+- Mandatory field validation
 - Referential integrity checks
 - Accepted value validation
+- Cross-dataset consistency checks
 - Business rule validations
-- Custom SQL tests
+- Custom SQL-based dbt tests
 
-## Project Status
+Selected source data violations are intentionally retained to demonstrate data quality detection and exception handling.
 
-**Status:** Initial Planning and Development
+## Project Progress
 
-Dataset identification, source analysis and pipeline design are the initial focus areas.
+| Phase | Status |
+|---|---|
+| Project planning and dataset design | Completed |
+| Synthetic data generation | Completed |
+| AWS S3 setup and file ingestion | Completed |
+| Snowflake RAW layer ingestion | Completed |
+| Data reconciliation and validation | Completed |
+| GitHub repository setup | Completed |
+| dbt connectivity and configuration | In Progress |
+| Source definitions | Pending |
+| Staging models | Pending |
+| Data quality test implementation | Pending |
+| Intermediate models | Pending |
+| Dimensional modelling and marts | Pending |
+| Incremental processing and historical tracking | Pending |
+| Final documentation | Pending |
 
-## Repository Structure
+## Version Control
 
-The repository structure and documentation will evolve as the project develops.
+Project source code, SQL models, configuration files and documentation are maintained using Git and GitHub.
+
+Generated datasets and sensitive connection credentials are excluded from version control.
 
 ## Disclaimer
 
-This is an independent learning and portfolio project using sample or publicly available datasets. It is not affiliated with or representative of any pharmaceutical company.
+This is an independent learning and portfolio project using synthetic pharmaceutical datasets. It does not contain real patient, healthcare professional or proprietary pharmaceutical company data and is not affiliated with any pharmaceutical organization.

@@ -1,0 +1,35 @@
+version: 2
+
+sources:
+  - name: pharma_raw
+    description: "Raw pharmaceutical commercial datasets ingested from AWS S3 into Snowflake."
+    database: PHARMA_DB
+    schema: RAW
+
+    tables:
+      - name: product
+        description: "Pharmaceutical product master data."
+
+      - name: territory
+        description: "Sales territory and geographical hierarchy."
+
+      - name: specialty_product_map
+        description: "Mapping between HCP specialties and pharmaceutical products."
+
+      - name: account_master
+        description: "Healthcare organization master data."
+
+      - name: hcp_master
+        description: "Healthcare professional master data."
+
+      - name: roster
+        description: "Sales representative and territory assignments."
+
+      - name: xponent
+        description: "Pharmaceutical prescription and sales data."
+
+      - name: calls_interactions
+        description: "Sales representative interactions with healthcare professionals."
+
+      - name: samples
+        description: "Pharmaceutical sample distribution records."
