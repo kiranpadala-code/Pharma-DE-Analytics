@@ -1,13 +1,16 @@
 {
-    "dbt.dbtIntegration": "fusion"
-}
-
-{
+    "dbt.dbtIntegration": "fusion",
     "editor.formatOnSave": false,
     "[sql]": {
         "editor.formatOnSave": true
     },
     "[yaml]": {
+        "editor.formatOnSave": false
+    },
+    "[jinja-yaml]": {
+        "editor.formatOnSave": false
+    },
+    "[markdown]": {
         "editor.formatOnSave": false
     }
 }

@@ -110,18 +110,42 @@ Selected source data violations are intentionally retained to demonstrate data q
 |---|---|
 | Project planning and dataset design | Completed |
 | Synthetic data generation | Completed |
-| AWS S3 setup and file ingestion | Completed |
-| Snowflake RAW layer ingestion | Completed |
-| Data reconciliation and validation | Completed |
+| AWS S3 setup and initial file ingestion | Completed |
+| Snowflake RAW layer initial ingestion | Completed |
+| Initial data reconciliation and validation | Completed |
 | GitHub repository setup | Completed |
-| dbt connectivity and configuration | In Progress |
-| Source definitions | Pending |
-| Staging models | Pending |
-| Data quality test implementation | Pending |
+| dbt connectivity and configuration | Completed |
+| Source definitions | Completed (9/9) |
+| Staging models | In Progress (5/9) |
+| Data quality test implementation | In Progress |
 | Intermediate models | Pending |
 | Dimensional modelling and marts | Pending |
 | Incremental processing and historical tracking | Pending |
+| Pipeline orchestration | Pending |
+| CI/CD automation | Pending |
 | Final documentation | Pending |
+
+### Staging Model Implementation and DQ Coverage
+
+| Model | Generic Tests | Singular Tests | Status |
+|---|---:|---:|---|
+| Product | 8 | 1 | Completed |
+| Territory | 8 | 1 | Completed |
+| Specialty Product Map | 6 | 0 | Completed |
+| Account Master | 24 | 8 | Completed |
+| HCP Master | 35 | 11 | Completed |
+| Roster | — | — | Pending |
+| Xponent | — | — | Pending |
+| Calls Interactions | — | — | Pending |
+| Samples | — | — | Pending |
+| **Total** | **81** | **21** | **102 tests passed** |
+
+All implemented tests have passed against the initial static
+and January 2026 datasets.
+
+Subsequent monthly deliveries from February to June 2026
+will be used to validate incremental ingestion, historical
+data management and multi-period data quality controls.
 
 ## Version Control
 
