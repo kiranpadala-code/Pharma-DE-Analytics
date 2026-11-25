@@ -1,0 +1,10 @@
+USE ROLE ACCOUNTADMIN;
+
+CREATE STORAGE INTEGRATION PHARMA_S3_INTEGRATION
+    TYPE = EXTERNAL_STAGE
+    STORAGE_PROVIDER = 'S3'
+    ENABLED = TRUE
+    STORAGE_AWS_ROLE_ARN = 'arn:aws:iam::393840684010:role/PharmaSnowflakeS3Role'
+    STORAGE_ALLOWED_LOCATIONS = (
+        's3://pharma-de-analytics-raw-kiranpadala/'
+    );
