@@ -2,7 +2,9 @@
 
 ## 1. Project name
 
-**Pharma Commercial Analytics Data Platform**
+**Pharma-DE-Analytics**
+
+Pharmaceutical Commercial Analytics Data Platform
 
 ## 2. Business context
 
