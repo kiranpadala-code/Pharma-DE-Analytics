@@ -32,3 +32,36 @@ models:
         description: "Timestamp when the record was ingested into the Snowflake RAW table."
         data_tests:
           - not_null
+
+  - name: stg_pharma__territory
+    description: "Staging model for Territory table"
+    columns:
+      - name: territory_id
+        description: "Unique identifier for the territory"
+        data_tests:
+          - not_null
+          - unique
+      - name: territory_name
+        description: "Name of the territory"
+        data_tests:
+          - not_null
+      - name: region
+        description: "Region associated with the territory"
+        data_tests:
+          - not_null
+      - name: zone
+        description: "Zone associated with the territory"
+        data_tests:
+          - not_null
+      - name: states_covered
+        description: "Semicolon-separated US state codes covered by the territory."
+        data_tests:
+          - not_null
+      - name: _source_file
+        description: "Relative path of the source file from which the record was ingested."
+        data_tests:
+          - not_null
+      - name: _loaded_at
+        description: "Timestamp when the record was ingested into the Snowflake RAW table."
+        data_tests:
+          - not_null

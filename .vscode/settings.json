@@ -1,3 +1,13 @@
 {
     "dbt.dbtIntegration": "fusion"
 }
+
+{
+    "editor.formatOnSave": false,
+    "[sql]": {
+        "editor.formatOnSave": true
+    },
+    "[yaml]": {
+        "editor.formatOnSave": false
+    }
+}
