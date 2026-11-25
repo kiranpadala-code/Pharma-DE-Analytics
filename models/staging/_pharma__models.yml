@@ -35,45 +35,54 @@ models:
 
   - name: stg_pharma__territory
     description: "Staging model for Territory table"
+
     columns:
       - name: territory_id
         description: "Unique identifier for the territory"
         data_tests:
           - not_null
           - unique
+
       - name: territory_name
         description: "Name of the territory"
         data_tests:
           - not_null
+
       - name: region
         description: "Region associated with the territory"
         data_tests:
           - not_null
+
       - name: zone
         description: "Zone associated with the territory"
         data_tests:
           - not_null
+
       - name: states_covered
         description: "Semicolon-separated US state codes covered by the territory."
         data_tests:
           - not_null
+
       - name: _source_file
         description: "Relative path of the source file from which the record was ingested."
         data_tests:
           - not_null
+
       - name: _loaded_at
         description: "Timestamp when the record was ingested into the Snowflake RAW table."
         data_tests:
           - not_null
-          
+
   - name: stg_pharma__specialty_product_map
     description: "Table for Specialty with its primary product."
+    
     columns:
       - name: specialty
         description: "Specialty name."
         data_tests:
           - not_null
           - unique
+
       - name: primary_product_id
         description: "Primary pharmaceutical product assigned to the specialty."
         data_tests:
@@ -82,10 +91,139 @@ models:
               arguments:
                 to: ref('stg_pharma__product')
                 field: product_id
+
       - name: _source_file
         description: "Relative path of the source file from which the record was ingested."
         data_tests:
           - not_null
+
+      - name: _loaded_at
+        description: "Timestamp when the record was ingested into the Snowflake RAW table."
+        data_tests:
+          - not_null
+
+  - name: stg_pharma__account_master
+    description: "Standardized healthcare organization master data with one record per account per snapshot month."
+
+    columns:
+      - name: account_id
+        description: "Business identifier of the healthcare organization."
+        data_tests:
+          - not_null
+
+      - name: account_name
+        description: "Name of the healthcare organization."
+        data_tests:
+          - not_null
+
+      - name: account_type
+        description: "Classification of the healthcare organization."
+        data_tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values:
+                  - Health System
+                  - Community Practice
+                  - IDN
+                  - Specialty Clinic
+                  - Clinic
+                  - Academic Medical Center
+                  - Hospital
+
+      - name: account_segment
+        description: "Commercial segmentation of the account."
+        data_tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: ['Key Account', 'Emerging', 'General', 'Strategic']
+
+      - name: hco_npi
+        description: "National Provider Identifier of the healthcare organization."
+        data_tests:
+          - not_null
+
+      - name: parent_account_id
+        description: "Identifier of the parent healthcare organization, if applicable."
+
+      - name: address_line1
+        description: "Primary street address of the account."
+        data_tests:
+          - not_null
+
+      - name: city
+        description: "City where the account is located."
+        data_tests:
+          - not_null
+
+      - name: state
+        description: "Two-letter US state code."
+        data_tests:
+          - not_null
+
+      - name: zip
+        description: "Five-digit US ZIP code."
+        data_tests:
+          - not_null
+
+      - name: region
+        description: "Geographic sales region associated with the account."
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('stg_pharma__territory')
+                field: region
+
+      - name: bed_count
+        description: "Number of beds associated with the healthcare organization."
+        data_tests:
+          - not_null
+
+      - name: is_teaching_hospital
+        description: "Indicates whether the organization is a teaching hospital."
+        data_tests:
+          - not_null
+
+      - name: is_magnet_hospital
+        description: "Indicates whether the organization has Magnet recognition."
+        data_tests:
+          - not_null
+
+      - name: formulary_access
+        description: "Formulary access classification of the account."
+        data_tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: ['Step Edit', 'Open', 'Closed', 'Restricted']
+
+      - name: is_active
+        description: "Indicates whether the account is active."
+        data_tests:
+          - not_null
+
+      - name: record_created_date
+        description: "Date when the account record was originally created."
+        data_tests:
+          - not_null
+
+      - name: record_updated_date
+        description: "Date when the account record was last updated."
+        data_tests:
+          - not_null
+
+      - name: snapshot_month
+        description: "Business snapshot period represented by the first date of the month."
+        data_tests:
+          - not_null
+
+      - name: _source_file
+        description: "Relative path of the source file from which the record was ingested."
+        data_tests:
+          - not_null
+
       - name: _loaded_at
         description: "Timestamp when the record was ingested into the Snowflake RAW table."
         data_tests:
