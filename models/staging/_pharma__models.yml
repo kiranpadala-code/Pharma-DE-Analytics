@@ -75,7 +75,7 @@ models:
 
   - name: stg_pharma__specialty_product_map
     description: "Table for Specialty with its primary product."
-    
+
     columns:
       - name: specialty
         description: "Specialty name."
@@ -221,6 +221,172 @@ models:
 
       - name: _source_file
         description: "Relative path of the source file from which the record was ingested."
+        data_tests:
+          - not_null
+
+      - name: _loaded_at
+        description: "Timestamp when the record was ingested into the Snowflake RAW table."
+        data_tests:
+          - not_null
+
+  - name: stg_pharma__hcp_master
+    description: "Standardized healthcare professional master data with one record per HCP per snapshot month."
+
+    columns:
+      - name: hcp_id
+        description: "Business identifier of the healthcare professional."
+        data_tests:
+          - not_null
+
+      - name: npi
+        description: "National Provider Identifier of the healthcare professional."
+        data_tests:
+          - not_null
+
+      - name: first_name
+        description: "First name of the healthcare professional."
+        data_tests:
+          - not_null
+
+      - name: last_name
+        description: "Last name of the healthcare professional."
+        data_tests:
+          - not_null
+
+      - name: full_name
+        description: "Full name of the healthcare professional."
+        data_tests:
+          - not_null
+
+      - name: degree
+        description: "Standardized professional qualification of the healthcare professional."
+        data_tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: ['MD', 'NP', 'PHARMD', 'PA', 'DO']
+
+      - name: specialty
+        description: "Primary medical specialty of the healthcare professional."
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('stg_pharma__specialty_product_map')
+                field: specialty
+
+      - name: sub_specialty
+        description: "Specialized area of practice within the primary specialty."
+        data_tests:
+          - not_null
+
+      - name: gender
+        description: "Gender of the healthcare professional."
+        data_tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: ['Female', 'Male']
+
+      - name: address_line1
+        description: "Primary practice address of the healthcare professional."
+        data_tests:
+          - not_null
+
+      - name: city
+        description: "City where the healthcare professional practices."
+        data_tests:
+          - not_null
+
+      - name: state
+        description: "Two-letter US state code."
+        data_tests:
+          - not_null
+
+      - name: zip
+        description: "Five-digit US ZIP code."
+        data_tests:
+          - not_null
+
+      - name: account_id
+        description: "Identifier of the associated healthcare organization."
+        data_tests:
+          - not_null
+
+      - name: territory_id
+        description: "Identifier of the assigned commercial sales territory."
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('stg_pharma__territory')
+                field: territory_id
+
+      - name: tier
+        description: "Commercial prioritization tier of the healthcare professional."
+        data_tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: ['Tier 1', 'Tier 2', 'Tier 3']
+
+      - name: decile
+        description: "Commercial ranking of the healthcare professional on a scale of 1 to 10."
+        data_tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+                quote: false
+
+      - name: target_segment
+        description: "Commercial targeting segment assigned to the healthcare professional."
+        data_tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: ['High Value', 'Maintenance', 'New to Brand', 'Growth Target']
+
+      - name: is_kol
+        description: "Indicates whether the healthcare professional is a Key Opinion Leader."
+        data_tests:
+          - not_null
+
+      - name: is_target
+        description: "Indicates whether the healthcare professional is a commercial target."
+        data_tests:
+          - not_null
+
+      - name: is_active
+        description: "Indicates whether the healthcare professional is active."
+        data_tests:
+          - not_null
+
+      - name: years_in_practice
+        description: "Number of years the healthcare professional has been practising."
+        data_tests:
+          - not_null
+
+      - name: data_source
+        description: "Source system providing the healthcare professional record."
+        data_tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: ['IQVIA', 'Veeva', 'HDM']
+
+      - name: record_created_date
+        description: "Date when the healthcare professional record was created."
+        data_tests:
+          - not_null
+
+      - name: snapshot_month
+        description: "Business snapshot period represented by the first date of the month."
+        data_tests:
+          - not_null
+
+      - name: _source_file
+        description: "Relative path of the ingested source file."
         data_tests:
           - not_null
 
