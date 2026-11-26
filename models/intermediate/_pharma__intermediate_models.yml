@@ -62,3 +62,108 @@ models:
 
       - name: _loaded_at
         description: Original RAW ingestion timestamp.
+
+  - name: int_account__history
+    description: >
+      SCD Type 2 account history reconstructed from periodic
+      full account master snapshots. Tracks business attribute
+      changes, account disappearance and reappearance.
+      Grain: one record per account per historical version.
+
+    columns:
+      - name: account_sk
+        description: Deterministic surrogate key for each account version.
+        data_tests:
+          - unique
+          - not_null
+
+      - name: account_id
+        description: Natural business key identifying the account.
+        data_tests:
+          - not_null
+
+      - name: account_name
+        description: Account name at the start of the historical version.
+
+      - name: account_type
+        description: Account classification.
+
+      - name: account_segment
+        description: Commercial segmentation of the account.
+
+      - name: hco_npi
+        description: National Provider Identifier of the organization.
+
+      - name: parent_account_id
+        description: Business key of the parent account, where applicable.
+
+      - name: address_line1
+        description: Account street address.
+
+      - name: city
+        description: Account city.
+
+      - name: state
+        description: Two-character state code.
+
+      - name: zip
+        description: Account postal code.
+
+      - name: region
+        description: Commercial region assigned to the account.
+
+      - name: bed_count
+        description: Number of beds associated with the account.
+
+      - name: is_teaching_hospital
+        description: Indicates whether the account is a teaching hospital.
+
+      - name: is_magnet_hospital
+        description: Indicates whether the account has Magnet designation.
+
+      - name: formulary_access
+        description: Formulary access classification.
+
+      - name: is_active
+        description: Business activity status supplied by the source.
+        data_tests:
+          - not_null
+
+      - name: record_created_date
+        description: Source record creation date.
+
+      - name: record_updated_date
+        description: Source record update date at the version-start snapshot.
+
+      - name: attribute_hash
+        description: Hash of tracked business attributes for change detection.
+        data_tests:
+          - not_null
+
+      - name: version_number
+        description: Sequential historical version number within each account.
+        data_tests:
+          - not_null
+
+      - name: valid_from
+        description: Inclusive start date of the historical version.
+        data_tests:
+          - not_null
+
+      - name: valid_to
+        description: Exclusive end date. NULL indicates an open version.
+
+      - name: is_current
+        description: Indicates whether the historical version remains open.
+        data_tests:
+          - not_null
+
+      - name: _source_file
+        description: Source file that initiated the historical version.
+        data_tests:
+          - not_null
+
+      - name: _loaded_at
+        description: Ingestion timestamp of the version-start source record.
+        data_tests:
+          - not_null
