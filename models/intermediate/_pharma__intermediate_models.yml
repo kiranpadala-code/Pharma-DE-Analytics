@@ -240,3 +240,71 @@ models:
         description: Ingestion timestamp of the version-start source record.
         data_tests:
           - not_null
+
+  - name: int_roster__history
+    description: >
+      SCD Type 2 representative history reconstructed from monthly
+      full roster snapshots. Tracks changes in representative
+      attributes, territory assignment, manager assignment,
+      product focus, employment status, disappearance and reappearance.
+      Grain: one record per representative per historical version.
+
+    columns:
+      - name: rep_sk
+        description: Deterministic surrogate key for each representative version.
+        data_tests:
+          - unique
+          - not_null
+
+      - name: rep_id
+        description: Natural business key identifying the representative.
+        data_tests:
+          - not_null
+
+      - name: rep_email
+        description: Representative email during the historical version.
+        data_tests:
+          - not_null
+
+      - name: territory_id
+        description: Territory assignment during the historical version.
+        data_tests:
+          - not_null
+
+      - name: employee_status
+        description: Employment status supplied by the source.
+        data_tests:
+          - not_null
+
+      - name: attribute_hash
+        description: Hash of 16 tracked representative attributes.
+        data_tests:
+          - not_null
+
+      - name: version_number
+        description: Sequential historical version number within each representative.
+        data_tests:
+          - not_null
+
+      - name: valid_from
+        description: Inclusive start date of the historical version.
+        data_tests:
+          - not_null
+
+      - name: valid_to
+        description: Exclusive end date. NULL indicates an open version.
+
+      - name: is_current
+        description: Indicates whether the historical version remains open.
+        data_tests:
+          - not_null
+
+      - name: _source_file
+        description: Source file that initiated the historical version.
+        data_tests:
+          - not_null
+
+      - name: _loaded_at
+        description: Ingestion timestamp of the version-start source record.
+        data_tests:
+          - not_null
