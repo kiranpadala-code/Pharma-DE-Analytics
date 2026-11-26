@@ -527,3 +527,147 @@ models:
         description: Timestamp of source data ingestion into Snowflake.
         data_tests:
           - not_null
+
+  - name: stg_pharma__xponent
+    description: >
+      Standardized monthly pharmaceutical prescription activity
+      at HCP, product and reporting month grain, including
+      prescription volumes, market share and payer information.
+
+    columns:
+      - name: rx_id
+        description: Unique source identifier of the aggregated prescription record.
+        data_tests:
+          - unique
+          - not_null
+
+      - name: npi
+        description: National Provider Identifier of the prescribing HCP.
+        data_tests:
+          - not_null
+
+      - name: product_id
+        description: Identifier of the prescribed pharmaceutical product.
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('stg_pharma__product')
+                field: product_id
+
+      - name: period_month
+        description: Reporting month of the prescription activity.
+        data_tests:
+          - not_null
+
+      - name: load_month
+        description: Source data delivery month.
+        data_tests:
+          - not_null
+
+      - name: trx_count
+        description: Total prescription count.
+        data_tests:
+          - not_null
+
+      - name: nrx_count
+        description: New prescription count.
+        data_tests:
+          - not_null
+
+      - name: refill_count
+        description: Refill prescription count.
+        data_tests:
+          - not_null
+
+      - name: trx_change_vs_prior_month
+        description: >
+          Source-reported change in total prescriptions compared
+          with the previous month. Nullable when prior-period
+          data is unavailable.
+
+      - name: market_trx
+        description: Total prescription count within the source-defined comparison market.
+        data_tests:
+          - not_null
+
+      - name: market_share_pct
+        description: Product prescription share within the comparison market, expressed as a percentage.
+        data_tests:
+          - not_null
+
+      - name: state
+        description: State associated with the prescribing HCP.
+        data_tests:
+          - not_null
+
+      - name: specialty
+        description: Medical specialty of the prescribing HCP.
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('stg_pharma__specialty_product_map')
+                field: specialty
+
+      - name: channel
+        description: Prescription distribution channel.
+        data_tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values:
+                  - Mail Order
+                  - Retail
+                  - Specialty Pharmacy
+
+      - name: days_supply_avg
+        description: Average prescription days of supply.
+        data_tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: [30, 60, 90]
+                quote: false
+
+      - name: payer_type
+        description: Payer category associated with prescription activity.
+        data_tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values:
+                  - Cash
+                  - Commercial
+                  - Medicaid
+                  - Medicare
+
+      - name: formulary_status_at_time
+        description: Product formulary status during the reporting period.
+        data_tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values:
+                  - Non-Preferred
+                  - Preferred
+                  - Step Edit
+
+      - name: data_source
+        description: Source system providing prescription activity data.
+        data_tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values:
+                  - IQVIA Xponent
+
+      - name: _source_file
+        description: Source file path associated with the record.
+        data_tests:
+          - not_null
+
+      - name: _loaded_at
+        description: Timestamp of source data ingestion into Snowflake.
+        data_tests:
+          - not_null
