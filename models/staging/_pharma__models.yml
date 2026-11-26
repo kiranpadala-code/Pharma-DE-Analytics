@@ -394,3 +394,136 @@ models:
         description: "Timestamp when the record was ingested into the Snowflake RAW table."
         data_tests:
           - not_null
+
+  - name: stg_pharma__roster
+    description: >
+      Standardized monthly sales representative roster containing
+      employee details, territory assignments, reporting hierarchy,
+      product focus and employment status.
+
+    columns:
+      - name: rep_id
+        description: Business identifier of the sales representative.
+        data_tests:
+          - not_null
+
+      - name: rep_first_name
+        description: First name of the sales representative.
+        data_tests:
+          - not_null
+
+      - name: rep_last_name
+        description: Last name of the sales representative.
+        data_tests:
+          - not_null
+
+      - name: rep_name
+        description: Full name of the sales representative.
+        data_tests:
+          - not_null
+
+      - name: rep_email
+        description: Corporate email address of the sales representative.
+        data_tests:
+          - not_null
+
+      - name: role_title
+        description: Job title of the sales representative.
+        data_tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values:
+                  - Key Account Manager
+                  - Regional Business Manager
+                  - Senior TBM
+                  - Territory Business Manager
+
+      - name: channel
+        description: Sales engagement channel.
+        data_tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values:
+                  - Field Sales
+                  - Inside Sales
+                  - Key Accounts
+
+      - name: territory_id
+        description: Identifier of the assigned sales territory.
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('stg_pharma__territory')
+                field: territory_id
+
+      - name: territory_name
+        description: Name of the assigned sales territory.
+        data_tests:
+          - not_null
+
+      - name: region
+        description: Geographical region of the assigned territory.
+        data_tests:
+          - not_null
+
+      - name: zone
+        description: Geographical zone of the assigned territory.
+        data_tests:
+          - not_null
+
+      - name: manager_id
+        description: Identifier of the reporting manager.
+        data_tests:
+          - not_null
+
+      - name: manager_name
+        description: Full name of the reporting manager.
+        data_tests:
+          - not_null
+
+      - name: product_focus
+        description: Primary pharmaceutical brand assigned to the representative.
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('stg_pharma__product')
+                field: brand_name
+
+      - name: hire_date
+        description: Employment commencement date.
+        data_tests:
+          - not_null
+
+      - name: employee_status
+        description: Employment status in the corresponding snapshot.
+        data_tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values:
+                  - Active
+                  - Terminated
+
+      - name: target_hcp_count
+        description: Number of HCPs targeted by the sales representative.
+        data_tests:
+          - not_null
+
+      - name: snapshot_month
+        description: First calendar day of the corresponding roster snapshot month.
+        data_tests:
+          - not_null
+
+      - name: _source_file
+        description: Source file path associated with the record.
+        data_tests:
+          - not_null
+
+      - name: _loaded_at
+        description: Timestamp of source data ingestion into Snowflake.
+        data_tests:
+          - not_null
