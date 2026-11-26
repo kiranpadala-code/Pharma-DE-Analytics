@@ -820,3 +820,144 @@ models:
         description: Timestamp of ingestion into the RAW layer.
         data_tests:
           - not_null
+
+  - name: stg_pharma__samples
+    description: >
+      Standardized pharmaceutical sampling transactions, including
+      call-associated sampling and standalone HCP requests.
+      Grain is one record per sample_id.
+
+    columns:
+      - name: sample_id
+        description: Unique sampling transaction identifier.
+        data_tests:
+          - unique
+          - not_null
+
+      - name: rep_id
+        description: Representative responsible for sample distribution.
+        data_tests:
+          - not_null
+
+      - name: npi
+        description: National Provider Identifier of the receiving HCP.
+        data_tests:
+          - not_null
+
+      - name: product_id
+        description: Identifier of the sampled product.
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('stg_pharma__product')
+                field: product_id
+
+      - name: call_id
+        description: Associated interaction identifier, if applicable.
+        data_tests:
+          - relationships:
+              arguments:
+                to: ref('stg_pharma__calls_interactions')
+                field: call_id
+
+      - name: sample_date
+        description: Date of sample distribution.
+        data_tests:
+          - not_null
+
+      - name: load_month
+        description: Source delivery month represented as a date.
+        data_tests:
+          - not_null
+
+      - name: qty_dropped
+        description: Quantity of sample units distributed.
+        data_tests:
+          - not_null
+
+      - name: sample_unit_type
+        description: Packaging or distribution unit of the sample.
+        data_tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: ['Blister Pack', 'Pack', 'Starter Pen']
+
+      - name: lot_number
+        description: Manufacturing lot identifier of the distributed sample.
+        data_tests:
+          - not_null
+
+      - name: expiry_date
+        description: Expiration date of the distributed sample.
+        data_tests:
+          - not_null
+
+      - name: strength_sampled
+        description: Dosage strength of the sampled product.
+        data_tests:
+          - not_null
+
+      - name: sample_request_type
+        description: Business reason for the sampling transaction.
+        data_tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values:
+                  - Routine Drop
+                  - New Patient Start
+                  - Follow-up
+                  - HCP Request
+
+      - name: was_signature_captured
+        description: Indicates whether a recipient signature was captured.
+        data_tests:
+          - not_null
+
+      - name: signature_method
+        description: Signature capture method or not-required designation.
+        data_tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: ['iPad', 'Paper', 'eDetails', 'Not Required']
+
+      - name: territory_id
+        description: Territory associated with the sampling transaction.
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('stg_pharma__territory')
+                field: territory_id
+
+      - name: sample_program
+        description: Sampling program under which the sample was distributed.
+        data_tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values:
+                  - Bridge Program
+                  - Standard Sampling
+                  - Launch Program
+
+      - name: data_source
+        description: Source system providing the sampling data.
+        data_tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: ['Veeva CRM']
+
+      - name: _source_file
+        description: Source file path used for ingestion.
+        data_tests:
+          - not_null
+
+      - name: _loaded_at
+        description: Timestamp of ingestion into the RAW layer.
+        data_tests:
+          - not_null
