@@ -1,0 +1,33 @@
+models:
+  - name: int_territory__states
+    description: >
+      Normalized territory-state mapping derived from the territory
+      staging model. Grain is one row per territory-state combination.
+      A territory can cover multiple states, and a state can belong
+      to multiple territories.
+
+    columns:
+      - name: territory_id
+        description: Unique identifier of the territory.
+        data_tests:
+          - not_null
+
+      - name: territory_name
+        description: Business name of the territory.
+
+      - name: region
+        description: Geographic region of the territory.
+
+      - name: zone
+        description: Geographic zone of the territory.
+
+      - name: state_code
+        description: Two-character state code extracted from states_covered.
+        data_tests:
+          - not_null
+
+      - name: _source_file
+        description: Original source file name.
+
+      - name: _loaded_at
+        description: Original RAW ingestion timestamp.
