@@ -31,3 +31,34 @@ models:
 
       - name: _loaded_at
         description: Original RAW ingestion timestamp.
+
+  - name: int_calls__products
+    description: >
+      Normalized call-product relationships derived from products_discussed
+      and enriched with product identifiers. Grain is one row per
+      call-product combination.
+
+    columns:
+      - name: call_id
+        description: Identifier of the commercial interaction.
+        data_tests:
+          - not_null
+
+      - name: product_id
+        description: Product identifier retrieved from the product master.
+        data_tests:
+          - not_null
+
+      - name: brand_name
+        description: Brand name of the discussed product.
+
+      - name: is_primary_product
+        description: Indicates whether the discussed product is the primary product of the call.
+        data_tests:
+          - not_null
+
+      - name: _source_file
+        description: Original calls source file name.
+
+      - name: _loaded_at
+        description: Original RAW ingestion timestamp.
