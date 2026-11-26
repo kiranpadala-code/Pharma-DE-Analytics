@@ -19,6 +19,7 @@ models:
         description: "Name of the brand associated with the product"
         data_tests:
           - not_null
+          - unique
 
       - name: formulary_tier
         description: "Tier level of the product in the formulary"
@@ -669,5 +670,153 @@ models:
 
       - name: _loaded_at
         description: Timestamp of source data ingestion into Snowflake.
+        data_tests:
+          - not_null
+
+  - name: stg_pharma__calls_interactions
+    description: >
+      Standardized sales representative interactions with healthcare
+      professionals. Grain is one record per call_id.
+
+    columns:
+      - name: call_id
+        description: Unique interaction identifier.
+        data_tests:
+          - unique
+          - not_null
+
+      - name: rep_id
+        description: Sales representative identifier.
+        data_tests:
+          - not_null
+
+      - name: npi
+        description: National Provider Identifier of the HCP.
+        data_tests:
+          - not_null
+
+      - name: product_id
+        description: Primary product associated with the interaction.
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('stg_pharma__product')
+                field: product_id
+
+      - name: call_date
+        description: Date of the interaction.
+        data_tests:
+          - not_null
+
+      - name: load_month
+        description: Source delivery month represented as a date.
+        data_tests:
+          - not_null
+
+      - name: call_type
+        description: Type of interaction with the HCP.
+        data_tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: ['F2F', 'MSL Visit', 'Phone', 'RTE', 'Virtual']
+
+      - name: call_channel
+        description: Communication channel used for the interaction.
+        data_tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: ['Email', 'In-Office', 'Phone', 'Teams', 'Zoom']
+
+      - name: call_outcome
+        description: Recorded outcome of the interaction.
+        data_tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values:
+                  - Detailed
+                  - Gatekeeper Block
+                  - Left Material
+                  - No Contact
+                  - Objection Raised
+                  - Positive Engagement
+                  - Sampled
+
+      - name: products_discussed
+        description: Semicolon-separated list of product brand names.
+        data_tests:
+          - not_null
+
+      - name: primary_message
+        description: Primary commercial message associated with the interaction.
+        data_tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values:
+                  - Efficacy
+                  - Formulary Access
+                  - New Data
+                  - Patient Support Program
+                  - Safety
+
+      - name: was_sampled
+        description: Indicates whether product samples were distributed.
+        data_tests:
+          - not_null
+
+      - name: was_detailed
+        description: Indicates whether product detailing was performed.
+        data_tests:
+          - not_null
+
+      - name: call_duration_min
+        description: Interaction duration in minutes.
+        data_tests:
+          - not_null
+
+      - name: call_rank_in_month
+        description: Source-provided monthly interaction sequence.
+        data_tests:
+          - not_null
+
+      - name: territory_id
+        description: Territory associated with the interaction.
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('stg_pharma__territory')
+                field: territory_id
+
+      - name: next_call_planned_date
+        description: Planned date of the next interaction, if available.
+
+      - name: is_compliant_call
+        description: Source-reported compliance status.
+        data_tests:
+          - not_null
+
+      - name: call_notes
+        description: Optional interaction notes.
+
+      - name: data_source
+        description: Source system providing the interaction data.
+        data_tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: ['Veeva CRM']
+
+      - name: _source_file
+        description: Source file path used for ingestion.
+        data_tests:
+          - not_null
+
+      - name: _loaded_at
+        description: Timestamp of ingestion into the RAW layer.
         data_tests:
           - not_null
