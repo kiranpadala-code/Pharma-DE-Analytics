@@ -50,3 +50,144 @@ models:
         description: Higher-level geographical sales grouping.
         data_tests:
           - not_null
+
+  - name: dim_account
+    description: >
+      Historical account dimension maintaining SCD Type 2 versions
+      of healthcare organization attributes.
+      Grain is one row per account version.
+
+    columns:
+      - name: account_sk
+        description: Unique surrogate key identifying an account version.
+        data_tests:
+          - unique
+          - not_null
+
+      - name: account_id
+        description: Account business identifier across historical versions.
+        data_tests:
+          - not_null
+
+      - name: version_number
+        description: Sequential historical version number.
+        data_tests:
+          - not_null
+
+      - name: valid_from
+        description: Inclusive effective start date.
+        data_tests:
+          - not_null
+
+      - name: valid_to
+        description: Exclusive effective end date. NULL for current versions.
+
+      - name: is_current
+        description: Indicates whether this is the current historical version.
+        data_tests:
+          - not_null
+
+  - name: dim_hcp
+    description: >
+      Historical healthcare professional dimension maintaining
+      SCD Type 2 versions of HCP attributes.
+      Grain is one row per HCP version.
+
+    columns:
+      - name: hcp_sk
+        description: Unique surrogate key identifying an HCP version.
+        data_tests:
+          - unique
+          - not_null
+
+      - name: hcp_id
+        description: HCP business identifier across historical versions.
+        data_tests:
+          - not_null
+
+      - name: npi
+        description: National Provider Identifier.
+        data_tests:
+          - not_null
+
+      - name: account_id
+        description: Account associated with the historical HCP version.
+        data_tests:
+          - not_null
+
+      - name: territory_id
+        description: Territory associated with the historical HCP version.
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('dim_territory')
+                field: territory_id
+
+      - name: version_number
+        description: Sequential historical version number.
+        data_tests:
+          - not_null
+
+      - name: valid_from
+        description: Inclusive effective start date.
+        data_tests:
+          - not_null
+
+      - name: valid_to
+        description: Exclusive effective end date. NULL for current versions.
+
+      - name: is_current
+        description: Indicates whether this is the current historical version.
+        data_tests:
+          - not_null
+
+  - name: dim_roster
+    description: >
+      Historical sales representative dimension maintaining
+      SCD Type 2 versions of representative attributes.
+      Grain is one row per representative version.
+
+    columns:
+      - name: rep_sk
+        description: Unique surrogate key identifying a representative version.
+        data_tests:
+          - unique
+          - not_null
+
+      - name: rep_id
+        description: Representative business identifier across historical versions.
+        data_tests:
+          - not_null
+
+      - name: territory_id
+        description: Territory assigned to the historical representative version.
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('dim_territory')
+                field: territory_id
+
+      - name: employee_status
+        description: Employment status during the historical version.
+        data_tests:
+          - not_null
+
+      - name: version_number
+        description: Sequential historical version number.
+        data_tests:
+          - not_null
+
+      - name: valid_from
+        description: Inclusive effective start date.
+        data_tests:
+          - not_null
+
+      - name: valid_to
+        description: Exclusive effective end date. NULL for current versions.
+
+      - name: is_current
+        description: Indicates whether this is the current historical version.
+        data_tests:
+          - not_null
