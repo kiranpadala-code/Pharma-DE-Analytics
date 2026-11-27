@@ -308,3 +308,51 @@ models:
         description: Ingestion timestamp of the version-start source record.
         data_tests:
           - not_null
+
+  - name: int_xponent__enriched
+    description: >
+      Prescription facts enriched with historically valid HCP
+      and account surrogate keys using the prescription month.
+
+    columns:
+      - name: rx_id
+        data_tests:
+          - unique
+          - not_null
+
+      - name: hcp_sk
+        description: Historically valid HCP surrogate key.
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('int_hcp__history')
+                field: hcp_sk
+
+      - name: hcp_id
+        description: HCP business identifier.
+        data_tests:
+          - not_null
+
+      - name: account_id
+        description: Account associated with the HCP during the prescription month.
+        data_tests:
+          - not_null
+
+      - name: account_sk
+        description: Historically valid account surrogate key.
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('int_account__history')
+                field: account_sk
+
+      - name: territory_id
+        description: Territory assigned to the HCP during the prescription month.
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('stg_pharma__territory')
+                field: territory_id

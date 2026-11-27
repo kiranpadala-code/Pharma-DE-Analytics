@@ -12,5 +12,6 @@
     },
     "[markdown]": {
         "editor.formatOnSave": false
-    }
+    },
+    "dbt.queryLimit": 100
 }
