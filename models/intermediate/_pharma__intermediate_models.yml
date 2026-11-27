@@ -356,3 +356,63 @@ models:
               arguments:
                 to: ref('stg_pharma__territory')
                 field: territory_id
+
+  - name: int_calls__enriched
+    description: >
+      Call interactions enriched with historically valid HCP,
+      account and sales representative surrogate keys using call date.
+
+    columns:
+      - name: call_id
+        data_tests:
+          - unique
+          - not_null
+
+      - name: hcp_sk
+        description: Historically valid HCP surrogate key.
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('int_hcp__history')
+                field: hcp_sk
+
+      - name: hcp_id
+        description: HCP business identifier.
+        data_tests:
+          - not_null
+
+      - name: account_id
+        description: Account associated with the HCP on the call date.
+        data_tests:
+          - not_null
+
+      - name: account_sk
+        description: Historically valid account surrogate key.
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('int_account__history')
+                field: account_sk
+
+      - name: rep_sk
+        description: Historically valid sales representative surrogate key.
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('int_roster__history')
+                field: rep_sk
+
+      - name: territory_id
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('stg_pharma__territory')
+                field: territory_id
+
+      - name: call_date
+        data_tests:
+          - not_null
