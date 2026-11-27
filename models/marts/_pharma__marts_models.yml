@@ -1,0 +1,52 @@
+models:
+  - name: dim_product
+    description: >
+      Current-state product dimension containing pharmaceutical
+      product attributes for commercial analytics.
+      Grain is one row per product.
+
+    columns:
+      - name: product_id
+        description: Unique product business identifier.
+        data_tests:
+          - unique
+          - not_null
+
+      - name: product_code
+        description: Short product code used in commercial reporting.
+        data_tests:
+          - unique
+          - not_null
+
+      - name: brand_name
+        description: Commercial brand name of the product.
+        data_tests:
+          - unique
+          - not_null
+
+  - name: dim_territory
+    description: >
+      Sales territory dimension containing geographical
+      hierarchy attributes. Grain is one row per territory.
+
+    columns:
+      - name: territory_id
+        description: Unique sales territory identifier.
+        data_tests:
+          - unique
+          - not_null
+
+      - name: territory_name
+        description: Business name of the sales territory.
+        data_tests:
+          - not_null
+
+      - name: region
+        description: Sales region associated with the territory.
+        data_tests:
+          - not_null
+
+      - name: zone
+        description: Higher-level geographical sales grouping.
+        data_tests:
+          - not_null
